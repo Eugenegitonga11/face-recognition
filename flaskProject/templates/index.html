@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+  }
+  .hero{
+    width: 100%;
+    height: 100vh;
+    background: #d1d1d1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card{
+    width: 400px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    color: #333;
+  }
+  .card h1{
+    font-weight: 500;
+    color: #000;
+  }
+  .card img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  button{
+    display: block;
+    width: 200px;
+    background: #3b90c2;
+    color: #050505;
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: larger;
+    outline: none;
+  }
+  input {
+    display: none;
+  }
+  .day{
+    display: block;
+    width: 200px;
+    color: #040404;
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+    </style>
+
+</head>
+<body>
+    <div class="hero">
+        <div class="card">
+           <h1>Attendance System</h1>
+                <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post" >
+
+
+                    <img src="{{ url_for('static',filename='images/profile.png') }}" alt="" id="profile-pic" onclick="document.getElementById('fileInput').click();" style="cursor: pointer;">
+
+                    <input class="day" type="text"  name="name" placeholder="input name">
+                    <input class="day" type="text" name="course" placeholder="input course name">
+                    <button>submit</button>
+                                    <label for="input-file" style="display:none;">update image</label>
+                <input type="file" name="file" accept="image/jpeg, image/jpg, image/png" id="fileInput" style="display:none;">
+
+                </form>
+            <div id="message"></div>
+
+        </div>
+     </div>
+
+    <script>
+        let profilePic = document.getElementById("profile-pic");
+        let inputFile = document.getElementById("fileInput");
+
+        inputFile.onchange = function(){
+            profilePic.src = URL.createObjectURL(inputFile.files[0]);
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('message').textContent = data.error;
+                    document.getElementById('message').style.color = 'red';
+                } else {
+                    document.getElementById('message').textContent = data.message;
+                    document.getElementById('message').style.color = 'green';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+                document.getElementById('message').style.color = 'red';
+            });
+        });
+
+
+     </script>
+
+
+</body>
+</html>
