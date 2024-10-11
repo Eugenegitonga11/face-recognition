@@ -49,6 +49,16 @@ data = {
             "standing": "G",
             "year": 4,
             "last_attendance_time": "2024-01-09 16:58:00"
+        },
+    "908070":
+        {
+            "name": "Eugene Mbogo",
+            "major": "engineering",
+            "starting_year": "2021",
+            "total_attendance": 8,
+            "standing": "G",
+            "year": 4,
+            "last_attendance_time": "2024-01-09 16:58:00"
         }
 
 }
